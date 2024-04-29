@@ -1,0 +1,62 @@
+ASSINGNMET 10
+
+
+
+mysql> use khargar;
+Database changed
+mysql> SELECT DISTINCT
+    ->     sp1.Snum AS Salesperson1_Num,
+    ->     sp1.Sname AS Salesperson1_Name,
+    ->     sp2.Snum AS Salesperson2_Num,
+    ->     sp2.Sname AS Salesperson2_Name,
+    ->     sp1.City
+    -> FROM
+    ->     salespeople sp1
+    -> INNER JOIN
+    ->     salespeople sp2 ON sp1.City = sp2.City
+    -> WHERE
+    ->     sp1.Snum < sp2.Snum;
++------------------+-------------------+------------------+-------------------+--------+
+| Salesperson1_Num | Salesperson1_Name | Salesperson2_Num | Salesperson2_Name | City   |
++------------------+-------------------+------------------+-------------------+--------+
+|       1001       |       Peel        |       1004       | Motika            | London |
++------------------+-------------------+------------------+-------------------+--------+
+1 row in set (0.01 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select C.Cname as CNAME, C.City as CCITY from customers C
+    -> where C.Rating = (select Rating from customers where Cname='Hoffman');
++---------+--------+
+| CNAME   | CCITY  |
++---------+--------+
+| Hoffman | London |
+| Clemens | London |
+| Pereira | Rome   |
++---------+--------+
+3 rows in set (0.01 sec)
+
+mysql>
+mysql> SELECT C.Cname AS Customer_Name, C.City
+    -> FROM customers C
+    -> WHERE C.Rating = (SELECT Rating FROM customers WHERE Cname = 'Hoffman');
++---------------+--------+
+| Customer_Name | City   |
++---------------+--------+
+| Hoffman       | London |
+| Clemens       | London |
+| Pereira       | Rome   |
++---------------+--------+
+3 rows in set (0.00 sec)

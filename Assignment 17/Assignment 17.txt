@@ -1,0 +1,29 @@
+1) Create the Orders table:
+CREATE TABLE Orders (
+    onum INTEGER PRIMARY KEY,
+    cnum INTEGER NOT NULL,
+    snum INTEGER NOT NULL,
+    OrderDate DATE NOT NULL,
+    Amount DECIMAL(10, 2),
+    CONSTRAINT chk_onum_cnum_snum CHECK (onum <> cnum AND cnum <> snum AND onum <> snum)
+);
+
+2) Create the Salespeople table:
+CREATE TABLE Salespeople (
+    snum INTEGER PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Comm DECIMAL(5, 2) DEFAULT 0.10 NOT NULL,
+    CONSTRAINT chk_name_alphabetical CHECK (Name >= 'A' AND Name <= 'M')
+);
+
+3) Create the Orders table with constraints:
+CREATE TABLE Orders (
+    onum INTEGER NOT NULL,
+    cnum INTEGER NOT NULL,
+    snum INTEGER NOT NULL,
+    OrderDate DATE NOT NULL,
+    Amount DECIMAL(10, 2),
+    CONSTRAINT chk_onum_cnum_snum CHECK (onum > cnum AND cnum > snum),
+    CONSTRAINT chk_no_nulls CHECK (onum IS NOT NULL AND cnum IS NOT NULL AND snum IS NOT NULL),
+    CONSTRAINT chk_unique_combinations UNIQUE (onum, cnum, snum)
+);

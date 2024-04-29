@@ -1,0 +1,18 @@
+1) Create a union of two queries that shows the names, cities, and ratings of all customers. Those with a rating of 200 or greater will also have the words “High Rating”, while the others will have the words “Low Rating”.
+SELECT Name, City, 
+       CASE WHEN Rating >= 200 THEN 'High Rating' ELSE 'Low Rating' END AS Rating_Status
+FROM Customers
+UNION
+SELECT Name, City, 
+       CASE WHEN Rating >= 200 THEN 'High Rating' ELSE 'Low Rating' END AS Rating_Status
+FROM Customers;
+
+2) Write a command that produces the name and number of each salesperson and each customer with more than one current order. Put the results in alphabetical order.
+SELECT Name, COUNT(*) AS Order_Count
+FROM (SELECT Name FROM Salespeople
+      UNION ALL
+      SELECT Name FROM Customers) AS PeopleOrders
+JOIN Orders ON PeopleOrders.Name = Orders.Name
+GROUP BY Name
+HAVING COUNT(*) > 1
+ORDER BY Name;

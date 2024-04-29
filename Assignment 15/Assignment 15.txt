@@ -1,0 +1,25 @@
+Insert all salespeople with more than one customer into the Multicust table:
+INSERT INTO Multicust (City, Name, Comm, Cnum)
+SELECT s.City, s.Name, s.Comm, s.Cnum
+FROM Salespeople s
+JOIN (
+    SELECT SalespersonID, COUNT(*) AS CustomerCount
+    FROM Customers
+    GROUP BY SalespersonID
+    HAVING COUNT(*) > 1
+) c ON s.Cnum = c.SalespersonID;
+
+Delete all customers with no current orders:
+DELETE FROM Customers
+WHERE CustomerID NOT IN (SELECT CustomerID FROM Orders);
+
+ Increase by twenty percent the commissions of all salespeople with total orders above Rs. 3,000:
+UPDATE Salespeople
+SET Comm = Comm * 1.20
+WHERE Cnum IN (
+    SELECT o.SalespersonID
+    FROM Orders o
+    JOIN Salespeople s ON o.SalespersonID = s.Cnum
+    GROUP BY o.SalespersonID
+    HAVING SUM(o.Amount) > 3000
+);

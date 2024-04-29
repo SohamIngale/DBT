@@ -1,0 +1,40 @@
+ #1 Create View Dailyorders 
+as Select Distinct cnum, snum, onum, odate from Orders; 
+
+#2 Create View Custotals 
+as Select cname, Sum (amt) Sum_Amt from Orders, Customers 
+where Orders.cnum=Customers.cnum 
+Group by cname; 
+
+
+#3 Create view Thirdorders 
+as Select * from Dailyorders where 
+ odate='1990-10-03'; 
+
+
+#4 Create view Nullcities 
+as Select snum, sname, city 
+from Salespeople 
+ where city is NULL 
+OR sname BETWEEN 'A' and 'MZ'; 
+
+
+2) Create a view of the Salespeople table called Commissions:
+CREATE VIEW Commissions AS
+SELECT snum, comm
+FROM Salespeople
+WHERE comm BETWEEN 0.10 AND 0.20;
+
+3) Create a view of the Orders table called Entryorders:
+CREATE TABLE Orders (
+    onum INTEGER PRIMARY KEY,
+    cnum INTEGER,
+    snum INTEGER,
+    odate DATE DEFAULT CURRENT_DATE,
+    amt DECIMAL(10, 2)
+);
+
+CREATE VIEW Entryorders AS
+SELECT onum, cnum, snum, odate, amt
+FROM Orders
+WHERE FALSE;

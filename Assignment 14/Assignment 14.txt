@@ -1,0 +1,17 @@
+Insert values into the salespeople table:
+INSERT INTO Salespeople (City, Name, Comm, Cnum)
+VALUES ('San Jose', 'Blanco', NULL, 1100);
+
+Remove all orders from customer Clemens from the Orders table:
+DELETE FROM Orders
+WHERE CustomerID IN (SELECT CustomerID FROM Customers WHERE CustomerName = 'Clemens');
+
+Increase the rating of all customers in Rome by 100:
+UPDATE Customers
+SET Rating = Rating + 100
+WHERE City = 'Rome';
+
+Assign customers of Salesperson Serres to Salesperson Motika:
+UPDATE Customers
+SET SalespersonID = (SELECT SalespersonID FROM Salespeople WHERE Name = 'Motika')
+WHERE SalespersonID = (SELECT SalespersonID FROM Salespeople WHERE Name = 'Serres');

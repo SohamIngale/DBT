@@ -1,0 +1,18 @@
+1) Select all customers whose ratings are equal to or greater than ANY of Serres'
+SELECT *
+FROM Customers
+WHERE Rating >= ANY (SELECT Rating FROM Customers WHERE CustomerName = 'Serres');
+
+2) Select all salespeople who have no customers located in their city
+SELECT *
+FROM Salespeople
+WHERE City NOT IN (SELECT City FROM Customers WHERE SalespersonID = Salespeople.SalespersonID);
+
+3) Select all orders for amounts greater than any for the customers in London
+SELECT *
+FROM Orders
+WHERE Amount > ANY (SELECT Amount FROM Orders WHERE CustomerID IN (SELECT CustomerID FROM Customers WHERE City = 'London'));
+4) Select all orders for amounts greater than the maximum amount for customers in London
+SELECT *
+FROM Orders
+WHERE Amount > (SELECT MAX(Amount) FROM Orders WHERE CustomerID IN (SELECT CustomerID FROM Customers WHERE City = 'London'));

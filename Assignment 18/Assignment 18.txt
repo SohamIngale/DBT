@@ -1,0 +1,14 @@
+1) Create the Cityorders table:
+CREATE TABLE Cityorders (
+    onum INTEGER PRIMARY KEY,
+    amt DECIMAL(10, 2),
+    snum INTEGER,
+    cnum INTEGER,
+    city VARCHAR(50),
+    CONSTRAINT fk_cityorders_orders FOREIGN KEY (onum) REFERENCES Orders(onum),
+    CONSTRAINT fk_cityorders_customers FOREIGN KEY (cnum, city) REFERENCES Customers(cnum, city)
+);
+2) Redefine the Orders table with the new column prev:
+ALTER TABLE Orders
+ADD COLUMN prev INTEGER,
+ADD CONSTRAINT fk_orders_prev FOREIGN KEY (prev, cnum) REFERENCES Orders(onum, cnum);
